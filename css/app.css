@@ -81,6 +81,16 @@ h1 {
     font-size: 33px;
 }
 
+button {
+    height: 30px;
+    width: 100px;
+    background: #02ccba;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+
 /*
  * Styles for the Score Panel
  */
@@ -106,4 +116,13 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+p {
+    margin: 0;
+}
+.checkmark-img {
+    width: 160px;
+    height: 120px;
+    margin-top: 100px;
 }
