@@ -4,7 +4,11 @@
     <meta charset="utf-8">
     <title>Matching Game</title>
     <meta name="description" content="">
-    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+<!--     <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"> -->
+
+    <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet prefetch">
+
+
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/app.css">
 </head>
@@ -16,25 +20,30 @@
         </header>
 
         <section class="score-panel">
-        	<ul class="stars">
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        		<li><i class="fa fa-star"></i></li>
-        	</ul>
+            <div class="scores">
+            	<ul class="stars">
+            		<li><i class="fa fa-star"></i></li>
+            		<li><i class="fa fa-star"></i></li>
+            		<li><i class="fa fa-star"></i></li>
+            	</ul>
+            	<span class="moves">0</span> Moves
+            </div>
 
-        	<span class="moves">0</span> Moves
+            <div class="timer">00:00:00</div>
 
             <div class="restart">
-        		<i class="fa fa-repeat"></i>
+        		<i class="fas fa-redo"></i>
         	</div>
+
+
         </section>
 
         <ul class="deck">
             <li class="card">
-                <i class="fa fa-diamond"></i>
+                <i class="fa fa-gem"></i>
             </li>
             <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
+                <i class="fa fa-paper-plane"></i>
             </li>
             <li class="card">
                 <i class="fa fa-anchor"></i>
@@ -55,7 +64,7 @@
                 <i class="fa fa-bicycle"></i>
             </li>
             <li class="card">
-                <i class="fa fa-diamond"></i>
+                <i class="fa fa-gem"></i>
             </li>
             <li class="card">
                 <i class="fa fa-bomb"></i>
@@ -73,7 +82,7 @@
                 <i class="fa fa-bicycle"></i>
             </li>
             <li class="card">
-                <i class="fa fa-paper-plane-o"></i>
+                <i class="fa fa-paper-plane"></i>
             </li>
             <li class="card">
                 <i class="fa fa-cube"></i>

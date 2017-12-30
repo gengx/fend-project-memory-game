@@ -33,6 +33,10 @@ h1 {
     font-weight: 300;
 }
 
+p {
+    margin: 0;
+}
+
 /*
  * Styles for the deck of cards
  */
@@ -81,24 +85,20 @@ h1 {
     font-size: 33px;
 }
 
-button {
-    height: 30px;
-    width: 100px;
-    background: #02ccba;
-    color: #ffffff;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 10px;
-}
+
+
+
 
 /*
  * Styles for the Score Panel
  */
 
 .score-panel {
-    text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .score-panel .stars {
@@ -118,8 +118,17 @@ button {
     cursor: pointer;
 }
 
-p {
-    margin: 0;
+/**
+ * Styles for the result page
+ */
+button {
+    height: 30px;
+    width: 100px;
+    background: #02ccba;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
 }
 .checkmark-img {
     width: 160px;
