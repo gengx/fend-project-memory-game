@@ -1,14 +1,17 @@
 /*
- * Create a list that holds all of your cards
+ * - Create a list that holds all of your cards
+ * - Initialize the moves counter
+ * - Initialize the star rating
+ * - Set up the rating thresholds
+ * - Start the game timer
  */
 
 const cards = document.querySelectorAll('.card');
-const totalCards = cards.length;
+const totalCards = 2;
 let totalMoves = 0;
 let stars = 3;
 const twoStarThreshold = 20;
 const oneStarThreshold = 25;
-const noStarThreshold = 30;
 
 const startTime = performance.now();
 
@@ -31,13 +34,12 @@ for(var i=0; i < newOrder.length; i++) {
 
 document.querySelector('.container').replaceChild(deckElement, document.querySelector('.deck'));
 
-/*
- * Listen on the restart button click
- */
+//Listen on the restart button click
 document.querySelector('.restart').addEventListener('click', function(){
 	location.reload();
 });
 
+//set up the timer to update every second
 var intervalID = window.setInterval(updateTimer, 1000);
 
 function updateTimer() {
@@ -47,13 +49,16 @@ function updateTimer() {
 	timer.innerText = displayTime(timeArr);
 }
 
-//adding leading zero function
-//from https://stackoverflow.com/questions/12230343/how-can-i-display-time-with-leading-zeros
+/**
+ * Adding leading zero function
+ * from: https://stackoverflow.com/questions/12230343/how-can-i-display-time-with-leading-zeros
+ */
 function displayTime(timeArray) {
 	return ('0' + timeArray[0]).slice(-2) + ':' + ('0' + timeArray[1]).slice(-2)
 		+ ':' + ('0' + timeArray[2]).slice(-2);
 }
 
+//get hour, minute and second from the elapsed number of seconds
 function getHourMinuteSecond(seconds) {
 	const hour = Math.floor(seconds/3600);
   	const minute = Math.floor((seconds - hour * 3600)/60);
@@ -75,7 +80,7 @@ function shuffle(array) {
     return array;
 }
 
-
+//upon clicking, reveal the card and process it accordingly
 function revealAndProcess(event) {
 	let openCard = document.querySelector('.open');
 
@@ -96,6 +101,7 @@ function revealAndProcess(event) {
 	}
 }
 
+//reveal the card and remove the event listener
 function showCard(card) {
 	card.classList.add('open');
 	card.classList.add('show');
@@ -103,6 +109,7 @@ function showCard(card) {
 
 }
 
+//turn unmatching cards over and add the event listener back
 function hideUnmatchingCards(card1, card2) {
 	card1.classList.remove('open');
 	card1.classList.remove('show');
@@ -114,6 +121,7 @@ function hideUnmatchingCards(card1, card2) {
 	card2.addEventListener('click', revealAndProcess)
 }
 
+//show matching cards and remove the event listener, and if all are matched, show the result page
 function showMatchingCards(card1, card2) {
 	card1.classList.remove('open');
 	card1.classList.remove('show');
@@ -131,15 +139,16 @@ function showMatchingCards(card1, card2) {
 	}
 }
 
+//increment the counter of moves, and update the star rating if needed
 function increaseMoves() {
 	totalMoves++;
 	document.querySelector('.moves').textContent = totalMoves;
-	if((totalMoves === twoStarThreshold) || (totalMoves === oneStarThreshold)
-		|| (totalMoves === noStarThreshold)) {
+	if((totalMoves === twoStarThreshold) || (totalMoves === oneStarThreshold)) {
 		reduceStar();
 	}
 }
 
+//reduce one star
 function reduceStar() {
 	allStars = document.querySelectorAll('.fa.fa-star');
 	lastStar = allStars[allStars.length - 1];
@@ -148,6 +157,7 @@ function reduceStar() {
 	stars--;
 }
 
+//make the result page and replace the current page
 function showResultPage() {
 	const fragment = document.createElement('div');
 	fragment.className = 'container';
@@ -162,25 +172,9 @@ function showResultPage() {
 	newHeadingElement.innerText = 'Congratulations! You won!';
 	fragment.appendChild(newHeadingElement);
 
-	const newTextElement1 = document.createElement('p');
-	const secondsElapsed = Math.floor((performance.now() - startTime) / 1000 );
-	const timeArray = getHourMinuteSecond(secondsElapsed);
-	newTextElement1.innerText = 'With ' + totalMoves + ' moves and ' + stars
-		+ ' stars in ';
-	if(timeArray[0] > 0) {
-		newTextElement1.innerText += timeArray[0] + ' hour(s), ';
-	}
-	if(timeArray[1] > 0) {
-		newTextElement1.innerText += timeArray[1] + ' minute(s) and ';
-	}
-	newTextElement1.innerText += timeArray[2] + ' seconds.';
-	fragment.appendChild(newTextElement1);
+	fragment.appendChild(makeScoreElement());
 
-	const newTextElement2 = document.createElement('small');
-	newTextElement2.innerText = '(3 stars: <' + twoStarThreshold +' moves; 2 stars: <'
-		+ oneStarThreshold + ' moves; 1 stars: <' + noStarThreshold + ' moves; 0 stars: >='
-		+ noStarThreshold + ' moves)';
-	fragment.appendChild(newTextElement2);
+	fragment.appendChild(makeRatingRuleElement());
 
 	const buttonElement = document.createElement('button');
 	buttonElement.innerText = 'Play Again!';
@@ -190,5 +184,30 @@ function showResultPage() {
 	fragment.appendChild(buttonElement);
 
 	document.body.replaceChild(fragment, document.querySelector('.container'));
+}
+
+function makeScoreElement() {
+	const newTextElement = document.createElement('p');
+	const secondsElapsed = Math.floor((performance.now() - startTime) / 1000 );
+	const timeArray = getHourMinuteSecond(secondsElapsed);
+	newTextElement.innerText = 'With ' + totalMoves + ' moves and ' + stars
+		+ ' star(s) in ';
+	if(timeArray[0] > 0) {
+		newTextElement.innerText += timeArray[0] + ' hour(s), ';
+	}
+	if(timeArray[1] > 0) {
+		newTextElement.innerText += timeArray[1] + ' minute(s) and ';
+	}
+	newTextElement.innerText += timeArray[2] + ' seconds.';
+
+	return newTextElement;
+}
+
+function makeRatingRuleElement() {
+	const ruleElement = document.createElement('small');
+	ruleElement.innerText = '(3 stars: <' + twoStarThreshold +' moves; 2 stars: <'
+		+ oneStarThreshold + ' moves; 1 star: >='
+		+ oneStarThreshold + ' moves)';
+	return ruleElement;
 }
 
