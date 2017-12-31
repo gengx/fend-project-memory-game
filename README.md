@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project is part of the Udacity's Front-end Web Development Nanodegree courses. I started with a given static version the code and added Javascipt code and some HTMl and CSS to make the game fully functional.
+This project is part of the Udacity's Front-end Web Development Nanodegree courses that I took during 2017/11-2018/5. I started with a given static version the code and added Javascipt code and some HTML and CSS to make the game fully functional.
 
 ## How The Game Works (from Udacity project overview)
 
@@ -16,7 +16,7 @@ Each turn:
 - If the cards do not match, both cards are flipped face down.
 - The game ends once all cards have been correctly matched.
 
-## How to get started
+## How to play
 
 Open the index.html page in the browser. The game timer starts right away. A new game can be started any time by clicking on the "restart" button on top of the page. A "Play again" button is also presented at the score page at the end of each game. Happy memorizing!
 
