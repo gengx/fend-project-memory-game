@@ -7,7 +7,7 @@
  */
 
 const cards = document.querySelectorAll('.card');
-const totalCards = 2;
+const totalCards = cards.length;
 let totalMoves = 0;
 let stars = 3;
 const twoStarThreshold = 20;

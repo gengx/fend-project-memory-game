@@ -1,20 +1,23 @@
 # Memory Game Project
 
-## Table of Contents
+## Introduction
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+This project is part of the Udacity's Front-end Web Development Nanodegree courses. I started with a given static version the code and added Javascipt code and some HTMl and CSS to make the game fully functional.
 
-## Instructions
+## How The Game Works (from Udacity project overview)
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+The game board consists of sixteen "cards" arranged in a grid. The deck is made up of eight different pairs of cards, each with different symbols on one side. The cards are arranged randomly on the grid with the symbol face down. The gameplay rules are very simple: flip over two hidden cards at a time to locate the ones that match!
 
-To get started, open `js/app.js` and start building out the app's functionality
+Each turn:
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+- The player flips one card over to reveal its underlying symbol.
+- The player then turns over a second card, trying to find the corresponding card with the same symbol.
+- If the cards match, both cards stay flipped over.
+- If the cards do not match, both cards are flipped face down.
+- The game ends once all cards have been correctly matched.
 
-## Contributing
+## How to get started
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Open the index.html page in the browser. The game timer starts right away. A new game can be started any time by clicking on the "restart" button on top of the page. A "Play again" button is also presented at the score page at the end of each game. Happy memorizing!
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
