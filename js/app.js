@@ -1,59 +1,73 @@
-/*
- * - Create a list that holds all of your cards
- * - Initialize the moves counter
- * - Initialize the star rating
- * - Set up the rating thresholds
- * - Start the game timer
- */
 
+//Get the list of cards and set up global variables
 const cards = document.querySelectorAll('.card');
 const totalCards = cards.length;
-let totalMoves = 0;
-let stars = 3;
+// const totalCards = 2;
 const twoStarThreshold = 20;
 const oneStarThreshold = 25;
+
+let totalMoves;
+let stars;
 let startTime;
-let isFirstCard = true;
+let isFirstCard;
 let timerIntervalId;
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML and add event listeners
- *   - add each card's HTML to the page
- */
-
-newOrder = shuffle(Object.keys(cards));
-
-const deckElement = document.createElement('ul');
-deckElement.className = 'deck';
-
-for(var i=0; i < newOrder.length; i++) {
-	deckElement.appendChild(cards[newOrder[i]]);
-	cards[i].addEventListener('click', revealAndProcess);
-};
-
-document.querySelector('.container').replaceChild(deckElement, document.querySelector('.deck'));
+//initialize the game
+init();
 
 //Listen on the restart button click
-document.querySelector('.restart').addEventListener('click', function(){
-	location.reload();
-});
+document.querySelector('.restart').addEventListener('click', init);
+
+
+function shuffleAndCreateCards() {
+	newOrder = shuffle(Object.keys(cards));
+
+	const deckElement = document.createElement('ul');
+	deckElement.className = 'deck';
+
+	for(let i=0; i < newOrder.length; i++) {
+		deckElement.appendChild(cards[newOrder[i]]);
+		cards[i].className = 'card';
+		cards[i].addEventListener('click', revealAndProcess);
+	};
+
+	document.querySelector('.container').replaceChild(deckElement, document.querySelector('.deck'));
+}
+
+function init() {
+	shuffleAndCreateCards();
+	initTimer();
+	initMoves();
+	isFirstCard = true;
+}
+
+function initTimer() {
+	if(timerIntervalId) {
+		clearInterval(timerIntervalId);
+	}
+	displayTimer(0);
+}
+
+function initMoves() {
+	totalMoves = 0;
+	document.querySelector('.moves').textContent = totalMoves;
+	stars = 3;
+}
 
 function updateTimer() {
-	timer = document.querySelector('.timer');
-	seconds = Math.floor((performance.now() - startTime) / 1000);
-	timeArr = getHourMinuteSecond(seconds);
-	timer.innerText = displayTime(timeArr);
+	const seconds = Math.floor((performance.now() - startTime) / 1000);
+	displayTimer(seconds)
 }
 
 /**
  * Adding leading zero function
  * from: https://stackoverflow.com/questions/12230343/how-can-i-display-time-with-leading-zeros
  */
-function displayTime(timeArray) {
-	return ('0' + timeArray[0]).slice(-2) + ':' + ('0' + timeArray[1]).slice(-2)
-		+ ':' + ('0' + timeArray[2]).slice(-2);
+function displayTimer(secondsElasped) {
+	const timer = document.querySelector('.timer');
+	const timeArr = getHourMinuteSecond(secondsElasped);
+	timer.innerText = ('0' + timeArr[0]).slice(-2) + ':' + ('0' + timeArr[1]).slice(-2)
+		+ ':' + ('0' + timeArr[2]).slice(-2);
 }
 
 //get hour, minute and second from the elapsed number of seconds
@@ -154,6 +168,8 @@ function increaseMoves() {
 		reduceStar();
 	}
 }
+
+
 
 //reduce one star
 function reduceStar() {
