@@ -7,7 +7,7 @@
  */
 
 const cards = document.querySelectorAll('.card');
-const totalCards = 2;
+const totalCards = cards.length;
 let totalMoves = 0;
 let stars = 3;
 const twoStarThreshold = 20;
@@ -80,18 +80,18 @@ function shuffle(array) {
 
 //upon clicking, reveal the card and process it accordingly
 function revealAndProcess(event) {
-	let openCard = document.querySelector('.open');
+	let openCards = document.querySelectorAll('.open');
 
-	if(event.target.nodeName === 'LI') {
+	if((event.target.nodeName === 'LI') && (openCards.length < 2)) {
 		showCard(event.target);
 
 		//if there is already an open card, compare them and either hide them or set them as matching cards
-		if(openCard != null ) {
+		if(openCards.length === 1 ) {
 			if(event.target.firstElementChild.className
-				!== openCard.firstElementChild.className) {
-				setTimeout(hideUnmatchingCards, 500, event.target, openCard);
+				!== openCards[0].firstElementChild.className) {
+				setTimeout(hideUnmatchingCards, 500, event.target, openCards[0]);
 			} else {
-				setTimeout(showMatchingCards, 500, event.target, openCard);
+				setTimeout(showMatchingCards, 500, event.target, openCards[0]);
 			}
 			//update the moves counter
 			increaseMoves();
