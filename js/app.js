@@ -7,13 +7,14 @@
  */
 
 const cards = document.querySelectorAll('.card');
-const totalCards = cards.length;
+const totalCards = 2;
 let totalMoves = 0;
 let stars = 3;
 const twoStarThreshold = 20;
 const oneStarThreshold = 25;
-
-const startTime = performance.now();
+let startTime;
+let isFirstCard = true;
+let timerIntervalId;
 
 /*
  * Display the cards on the page
@@ -38,9 +39,6 @@ document.querySelector('.container').replaceChild(deckElement, document.querySel
 document.querySelector('.restart').addEventListener('click', function(){
 	location.reload();
 });
-
-//set up the timer to update every second
-var intervalID = window.setInterval(updateTimer, 1000);
 
 function updateTimer() {
 	timer = document.querySelector('.timer');
@@ -105,7 +103,14 @@ function revealAndProcess(event) {
 function showCard(card) {
 	card.classList.add('open');
 	card.classList.add('show');
-	card.removeEventListener('click', revealAndProcess)
+	card.removeEventListener('click', revealAndProcess);
+
+	//start the timer on the fist card flip
+	if(isFirstCard) {
+		startTime = performance.now();
+		timerIntervalId = window.setInterval(updateTimer, 1000);
+		isFirstCard = false;
+	}
 
 }
 
@@ -134,7 +139,9 @@ function showMatchingCards(card1, card2) {
 	card1.removeEventListener('click', revealAndProcess);
 	card2.removeEventListener('click', revealAndProcess);
 
+	//when all the cards match, stop the timer and show the result page
 	if(document.querySelectorAll('.match').length === totalCards) {
+		clearInterval(timerIntervalId);
 		showResultPage();
 	}
 }
