@@ -18,6 +18,6 @@ Each turn:
 
 ## How to play
 
-Open the index.html page in the browser. The game timer starts right away. A new game can be started any time by clicking on the "restart" button on top of the page. A "Play again" button is also presented at the score page at the end of each game. Happy memorizing!
+Open the index.html page in the browser. The game timer starts when the fist card is opened. A new game can be started any time by clicking on the "restart" button on top of the page. A "Play again" button is also presented at the score page at the end of each game. Happy memorizing!
 
 
