@@ -97,20 +97,19 @@ p {
     align-items: center;
 }
 
-.score-panel .stars {
+.stars {
     margin: 0;
     padding: 0;
     display: inline-block;
     margin: 0 5px 0 0;
 }
 
-.score-panel .stars li {
+.stars li {
     list-style: none;
     display: inline-block;
 }
 
 .score-panel .restart {
-    float: right;
     cursor: pointer;
 }
 

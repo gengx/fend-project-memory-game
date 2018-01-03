@@ -2,7 +2,6 @@
 //Get the list of cards and set up global variables
 const cards = document.querySelectorAll('.card');
 const totalCards = cards.length;
-// const totalCards = 2;
 const twoStarThreshold = 20;
 const oneStarThreshold = 25;
 
@@ -18,6 +17,12 @@ init();
 //Listen on the restart button click
 document.querySelector('.restart').addEventListener('click', init);
 
+function init() {
+	shuffleAndCreateCards();
+	initTimer();
+	initMoves();
+	isFirstCard = true;
+}
 
 function shuffleAndCreateCards() {
 	newOrder = shuffle(Object.keys(cards));
@@ -32,13 +37,6 @@ function shuffleAndCreateCards() {
 	};
 
 	document.querySelector('.container').replaceChild(deckElement, document.querySelector('.deck'));
-}
-
-function init() {
-	shuffleAndCreateCards();
-	initTimer();
-	initMoves();
-	isFirstCard = true;
 }
 
 function initTimer() {
@@ -59,13 +57,11 @@ function updateTimer() {
 	displayTimer(seconds)
 }
 
-/**
- * Adding leading zero function
- * from: https://stackoverflow.com/questions/12230343/how-can-i-display-time-with-leading-zeros
- */
+
 function displayTimer(secondsElasped) {
 	const timer = document.querySelector('.timer');
 	const timeArr = getHourMinuteSecond(secondsElasped);
+	// Adding leading zero function from: https://stackoverflow.com/questions/12230343/how-can-i-display-time-with-leading-zeros
 	timer.innerText = ('0' + timeArr[0]).slice(-2) + ':' + ('0' + timeArr[1]).slice(-2)
 		+ ':' + ('0' + timeArr[2]).slice(-2);
 }
@@ -105,7 +101,7 @@ function revealAndProcess(event) {
 				!== openCards[0].firstElementChild.className) {
 				setTimeout(hideUnmatchingCards, 500, event.target, openCards[0]);
 			} else {
-				setTimeout(showMatchingCards, 500, event.target, openCards[0]);
+				setTimeout(showMatchingCards, 300, event.target, openCards[0]);
 			}
 			//update the moves counter
 			increaseMoves();
@@ -125,7 +121,6 @@ function showCard(card) {
 		timerIntervalId = window.setInterval(updateTimer, 1000);
 		isFirstCard = false;
 	}
-
 }
 
 //turn unmatching cards over and add the event listener back
@@ -169,8 +164,6 @@ function increaseMoves() {
 	}
 }
 
-
-
 //reduce one star
 function reduceStar() {
 	allStars = document.querySelectorAll('.fa.fa-star');
@@ -197,6 +190,8 @@ function showResultPage() {
 
 	fragment.appendChild(makeScoreElement());
 
+	fragment.appendChild(makeRatingElement(stars));
+
 	fragment.appendChild(makeRatingRuleElement());
 
 	const buttonElement = document.createElement('button');
@@ -213,8 +208,7 @@ function makeScoreElement() {
 	const newTextElement = document.createElement('p');
 	const secondsElapsed = Math.floor((performance.now() - startTime) / 1000 );
 	const timeArray = getHourMinuteSecond(secondsElapsed);
-	newTextElement.innerText = 'With ' + totalMoves + ' moves and ' + stars
-		+ ' star(s) in ';
+	newTextElement.innerText = 'With ' + totalMoves + ' moves in ';
 	if(timeArray[0] > 0) {
 		newTextElement.innerText += timeArray[0] + ' hour(s), ';
 	}
@@ -227,10 +221,58 @@ function makeScoreElement() {
 }
 
 function makeRatingRuleElement() {
-	const ruleElement = document.createElement('small');
-	ruleElement.innerText = '(3 stars: <' + twoStarThreshold +' moves; 2 stars: <'
-		+ oneStarThreshold + ' moves; 1 star: >='
-		+ oneStarThreshold + ' moves)';
-	return ruleElement;
+	const fragment = document.createElement('small');
+
+	let span = document.createElement('span');
+	span.innerText = '(';
+	fragment.appendChild(span);
+
+	fragment.appendChild(makeStars(3));
+	span = document.createElement('span');
+	span.innerText = ': < '+ twoStarThreshold + ' moves; ';
+	fragment.appendChild(span);
+
+	fragment.appendChild(makeStars(2));
+	span = document.createElement('span');
+	span.innerText = ': < '+ oneStarThreshold + ' moves; ';
+	fragment.appendChild(span);
+
+	fragment.appendChild(makeStars(1));
+	span = document.createElement('span');
+	span.innerText = ': >= '+ oneStarThreshold + ' moves; ';
+	fragment.appendChild(span);
+
+	span = document.createElement('span');
+	span.innerText = ')';
+	fragment.appendChild(span);
+
+	return fragment;
+}
+
+function makeRatingElement(num) {
+	const fragment = document.createElement('div');
+	const text = document.createElement('span');
+	text.innerText = 'You are rated: ';
+	fragment.appendChild(text);
+	fragment.appendChild(makeStars(num));
+	return fragment;
+}
+
+function makeStars(num) {
+	const starElement = document.createElement('ul');
+	// const starElement = document.createDocumentFragment();
+	starElement.className = 'stars';
+	for(let i = 1; i <= 3; i++) {
+		const oneStar = document.createElement('li');
+		const star = document.createElement('i');
+		if(i <= num) {
+			star.classList.add('fa', 'fa-star');
+		} else {
+			star.classList.add('far', 'fa-star');
+		}
+		oneStar.appendChild(star);
+		starElement.appendChild(oneStar);
+	}
+	return starElement;
 }
 
